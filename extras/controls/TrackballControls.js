@@ -34,6 +34,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	this.keys = [ 65 /*A*/, 83 /*S*/, 68 /*D*/ ];
 
+    this.dragAction = undefined;
+    
 	// internals
 
 	this.target = new THREE.Vector3();
@@ -406,6 +408,15 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 		if ( _state === STATE.NONE ) {
 
+                    if (_this.dragAction === "move")
+                        _state = STATE.PAN;
+                    else
+                    if (_this.dragAction === "rotate")
+                        _state = STATE.ROTATE;
+                    else
+                    if (_this.dragAction === "zoom")
+                        _state = STATE.ZOOM;
+                    else
 			_state = event.button;
 
 		}
@@ -499,7 +510,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	function touchstart( event ) {
 
-		if ( _this.enabled === false ) return;
+		if ( _this.enabled === false) return;
 
 		switch ( event.touches.length ) {
 
